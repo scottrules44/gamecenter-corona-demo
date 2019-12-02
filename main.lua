@@ -127,3 +127,51 @@ getPlayerData:addEventListener( "tap", function()
         print("----------")
     end)
 end )
+--[[
+--multiplayer sample
+local gamecenter = require "plugin.gamecenter"
+local json = require "json"
+local widget = require "widget"
+
+local gamecenterSignIn = false
+gamecenter.init(function (e)
+    if e.status == "signed in" then
+        gamecenterSignIn = true
+    end
+end)
+gamecenter.multiplayer.setListener(function (e)
+    if e.itIsMyTurn == true then
+        endTurn.alpha = 1
+    else
+        endTurn.alpha = 0
+    end
+end)
+local endTurn
+local showInvite= widget.newButton( {
+    x = display.contentCenterX,
+    y = display.contentCenterY-100,
+    label = "Show Invite",
+    onRelease = function (  )
+       gamecenter.multiplayer.invite(2,4,"Come play now", function(e)
+            print(json.encode(e))
+            if e.itIsMyTurn == true then
+                endTurn.alpha = 1
+            else
+                endTurn.alpha = 0
+            end
+       end)
+    end
+} )
+endTurn= widget.newButton( {
+    x = display.contentCenterX,
+    y = display.contentCenterY-50,
+    label = "End Turn",
+    onRelease = function (  )
+       gamecenter.multiplayer.endTurn({someData="hello there"}, 300, function(e)
+            
+       end) --300 seconds = 5 minutes to make move
+    end
+} )
+endTurn.alpha = 0
+]]--
+
