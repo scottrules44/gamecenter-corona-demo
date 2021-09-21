@@ -38,7 +38,9 @@ settings =
 	},
 	plugins = {
 	 ["plugin.gamecenter"] = {
+	 
             publisherId = "tech.scotth",
+	    marketplaceId = "insert id here"
         },
       }
 }
